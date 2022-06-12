@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Creators
  * Plugin URI: https://github.com/Spurtdigital/spurt-plugin
- * Description: Hier description
- * Version: 0.0.1
+ * Description: Version bumb
+ * Version: 0.0.2
  * Author: Kevin Brinkman
  * License: GNU General Public License v2
  * License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
