@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Creators
  * Plugin URI: https://github.com/Spurtdigital/creators
- * Description: Release 0.4.0
- * Version: 0.4.0
+ * Description: Release 0.4.1
+ * Version: 0.4.1
  * Author: Kevin Brinkman
  * License: GNU General Public License v2
  * License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
@@ -13,4 +13,4 @@
  * Requires PHP: 5.4
  */
 
-include( plugin_dir_path( __FILE__ ) . 'includes/updater/update-class.php');
+include( plugin_dir_path( __FILE__ ) . 'update-class.php');
