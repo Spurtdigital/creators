@@ -27,14 +27,14 @@ if( ! class_exists( 'UpdateChecker' ) ) {
 		public function __construct() {
 
 			//Setters:
-			$this->plugin_name = 'creators';
+			$this->plugin_name = 'Creators';
 			$this->github_user = 'Spurtdigital';
 			$this->github_repo = 'creators';
 			$this->version = '0.0.1';
 
             //Set the need info for the transient
 			$this->plugin_slug = plugin_basename( __DIR__ );
-			$this->transient_cachekey = 'creators';
+			$this->transient_cachekey = 'spurtdigital';
 			$this->cache_allowed = false;
 			$this->destination = WP_PLUGIN_DIR . '/' . $this->plugin_slug . '/package';
 
