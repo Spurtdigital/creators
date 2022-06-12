@@ -3,7 +3,7 @@
  * Plugin Name: Creators
  * Plugin URI: https://github.com/Spurtdigital/creators
  * Description: Version bumb test 2
- * Version: 0.0.4
+ * Version: 0.1.0
  * Author: Kevin Brinkman
  * License: GNU General Public License v2
  * License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html

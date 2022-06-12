@@ -1,4 +1,4 @@
-~Current Version:0.0.4~
+~Current Version:0.1.0~
 
-# creators
+# Creators
 Base setup for creator theme's
