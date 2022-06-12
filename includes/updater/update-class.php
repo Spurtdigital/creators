@@ -217,7 +217,7 @@ if( ! class_exists( 'UpdateChecker' ) ) {
 				$res->plugin = $this->plugin_slug . "/" . $this->plugin_slug . ".php";
 				$res->new_version = $remote->version;
 				$res->tested = $remote->tested;
-				$res->package = $remote->download_url;
+				$res->package = $remote->download_link;
 
 				$transient->response[ $res->plugin ] = $res;
 
