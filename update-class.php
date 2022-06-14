@@ -3,7 +3,10 @@
 namespace Kevin;
 
 use Exception;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 use stdClass;
+use ZipArchive;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -39,6 +42,7 @@ if( ! class_exists( 'UpdateChecker' ) ) {
 			$this->destination = WP_PLUGIN_DIR . '/' . $this->plugin_slug . '/package';
 
             //Filter on three items
+			\add_filter( 'wp', array( $this, 'test_download' ), 20, 3 );
 			\add_filter( 'plugins_api', array( $this, 'info' ), 20, 3 );
 			\add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'update' ) );
 			\add_action( 'upgrader_process_complete', array( $this, 'purge' ), 10, 2 );
@@ -121,34 +125,87 @@ if( ! class_exists( 'UpdateChecker' ) ) {
 
 			//Do some terminal/ssh commands to navigate to right folder
 			$dir = getcwd();
+
+			if(!is_dir($this->destination)) return false;
+
 			chdir($this->destination);
 			$rootpath = getcwd();
-
+			
 			try {
 
-				//Let's try to curl download it...
-				$url = 'https://github.com/' . $this->github_user . '/' . $this->github_repo . '/archive/master.zip';
+				//Clone the git repo
+				$result = exec('git clone https://github.com/' . $this->github_user . '/' . $this->github_repo . '.git');
 
-				//And right away create a zip
-				$fh = fopen('master.zip', 'w');
+				// Initialize empty "delete list"
+				$filesToDelete = array();
 
-				//So intit curl with file transfer
-				$ch = curl_init();
-				curl_setopt($ch, CURLOPT_URL, $url); 
-				curl_setopt($ch, CURLOPT_FILE, $fh); 
-				curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // this will follow redirects
-				curl_exec($ch);
+				//Check if succesfully downloaded
+				if (is_dir($rootpath)) {
 
-				//Close curl and file...
-				curl_close($ch);
-				fclose($fh);
+					//Create ZIP
+					$zip = new ZipArchive();
+					$zip->open(\wp_upload_dir()['basedir'] . '/' . $this->plugin_slug . '.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE);
+
+					// Create recursive directory iterator
+					$files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($rootpath),RecursiveIteratorIterator::LEAVES_ONLY);
+
+					foreach ($files as $name => $file) {
+						// Skip directories (they would be added automatically)
+						if (!$file->isDir()) {
+							// Get real and relative path for current file
+							$filePath = $file->getRealPath();
+							$relativePath = substr($filePath, strlen($rootpath) + 1);
+		
+							// Add current file to archive
+							$zip->addFile($filePath, $relativePath);
+		
+							// Add current file to "delete list"
+							$filesToDelete[] = $filePath;
+						}
+					}
+
+					// Zip archive will be created only after closing object
+					$zip->close();
+
+					//At the end we can remove the original folder
+					$this->remove_package_folder($rootpath);
+				}
 
 				//Return ZIP location
-				return $this->destination . '/master.zip';
+				return \wp_upload_dir()['basedir'] . '/' . $this->plugin_slug . '.zip';
 
 			} catch (Exception $e) {
 
 				echo 'Caught exception: ',  $e->getMessage(), "\n";
+			}
+		}
+
+		/**
+		 * Remove the entire package folder
+		 *
+		 * @param [type] $rootpath
+		 * @return void
+		 */
+		private function remove_package_folder($rootpath)
+		{
+			//Set repo path
+			$dir = $rootpath . '/' . $this->github_repo;
+	
+			//Check if it's a dir if so remove
+			if (is_dir($dir)) {
+				//Setup recursives
+				$it = new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS);
+				$files = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::CHILD_FIRST);
+
+				//Loop over files to remove
+				foreach ($files as $file) {
+					if ($file->isDir()) {
+						rmdir($file->getRealPath());
+					} else {
+						unlink($file->getRealPath());
+					}
+				}
+				rmdir($dir);
 			}
 		}
 
