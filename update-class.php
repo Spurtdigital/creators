@@ -147,7 +147,7 @@ if( ! class_exists( 'UpdateChecker' ) ) {
 					$zip->open(\wp_upload_dir()['basedir'] . '/' . $this->plugin_slug . '.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE);
 
 					// Create recursive directory iterator
-					$files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($rootpath),RecursiveIteratorIterator::LEAVES_ONLY);
+					$files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($rootpath . '/' . $this->slug),RecursiveIteratorIterator::LEAVES_ONLY);
 
 					foreach ($files as $name => $file) {
 						// Skip directories (they would be added automatically)
