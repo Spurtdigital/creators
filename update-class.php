@@ -148,7 +148,7 @@ if( ! class_exists( 'UpdateChecker' ) ) {
 
 					// Create recursive directory iterator
 					$files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($rootpath . '/' . $this->slug),RecursiveIteratorIterator::LEAVES_ONLY);
-
+					
 					foreach ($files as $name => $file) {
 						// Skip directories (they would be added automatically)
 						if (!$file->isDir()) {
