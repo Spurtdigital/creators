@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Creators
  * Plugin URI: https://github.com/Spurtdigital/creators
- * Description: Release 0.5.2
- * Version: 0.5.2
+ * Description: Release 0.5.3
+ * Version: 0.5.3
  * Author: Kevin Brinkman
  * License: GNU General Public License v2
  * License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
