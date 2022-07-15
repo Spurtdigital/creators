@@ -33,7 +33,7 @@ if( ! class_exists( 'UpdateChecker' ) ) {
 			$this->plugin_name = 'Creators';
 			$this->github_user = 'Spurtdigital';
 			$this->github_repo = 'creators';
-			$this->version = '0.5.6';
+			$this->version = '0.5.7';
 
             //Set the need info for the transient
 			$this->plugin_slug = plugin_basename( __DIR__ );
