@@ -33,7 +33,7 @@ if( ! class_exists( 'UpdateChecker' ) ) {
 			$this->plugin_name = 'Creators';
 			$this->github_user = 'Spurtdigital';
 			$this->github_repo = 'creators';
-			$this->version = '0.0.1';
+			$this->version = '0.5.3';
 
             //Set the need info for the transient
 			$this->plugin_slug = plugin_basename( __DIR__ );
@@ -146,8 +146,12 @@ if( ! class_exists( 'UpdateChecker' ) ) {
 					$zip = new ZipArchive();
 					$zip->open(\wp_upload_dir()['basedir'] . '/' . $this->plugin_slug . '.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE);
 
+					//We have to get the real folder inside...
+					$directories = glob($rootpath . '/*' , GLOB_ONLYDIR);
+					$recursivepath = $directories[0];
+
 					// Create recursive directory iterator
-					$files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($rootpath . '/' . $this->plugin_slug),RecursiveIteratorIterator::LEAVES_ONLY);
+					$files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($recursivepath),RecursiveIteratorIterator::LEAVES_ONLY);
 					
 					foreach ($files as $name => $file) {
 						// Skip directories (they would be added automatically)
@@ -271,7 +275,7 @@ if( ! class_exists( 'UpdateChecker' ) ) {
 			) {
 				$res = new stdClass();
 				$res->slug = $this->plugin_slug;
-				$res->plugin = $this->plugin_slug . "/" . $this->plugin_slug . ".php";
+				$res->plugin = $this->plugin_slug . "/" . $this->github_repo . ".php";
 				$res->new_version = $remote->version;
 				$res->tested = $remote->tested;
 				$res->package = $remote->download_link;
