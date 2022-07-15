@@ -2,15 +2,15 @@
 /**
  * Plugin Name: Creators
  * Plugin URI: https://github.com/Spurtdigital/creators
- * Description: Release 0.5.4
- * Version: 0.5.4
+ * Description: Release 0.5.5
+ * Version: 0.5.5
  * Author: Kevin Brinkman
  * License: GNU General Public License v2
  * License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * GitHub Plugin URI: https://github.com/Spurtdigital/creators
  * GitHub Branch: master
  * Requires WP: 4.0
- * Requires PHP: 5.4
+ * Requires PHP: 5.5
  */
 
  
